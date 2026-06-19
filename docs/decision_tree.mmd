@@ -1,0 +1,47 @@
+flowchart TD
+  %% Start
+  Start([Start Login])
+
+  %% Input validation
+  Start --> ValidateInput{Validate Input}
+  ValidateInput -->|missing/invalid| ReturnInputError[Return Input Error]
+  ValidateInput -->|ok| FindUser[Lookup user by email]
+
+  %% User existence
+  FindUser -->|not found| ReturnUserNotFound[Return: Akun tidak ditemukan]
+  FindUser -->|found| CheckLocked{Is user locked?}
+
+  %% Locked branch
+  CheckLocked -->|yes| ReturnLocked[Return: Akun terkunci sementara]
+  CheckLocked -->|no| ValidateCreds{Password + Role + Badge OK?}
+
+  %% Credential validation
+  ValidateCreds -->|no| RegisterFailure[Increment failed_login_attempts]
+  RegisterFailure -->|reached >= 3| SetLock[Set locked_until = now + 10 minutes]
+  RegisterFailure -->|still <3| ReturnCredsError[Return: Email/password/role/badge tidak sesuai]
+  SetLock --> ReturnLocked
+
+  ValidateCreds -->|yes| GenerateOTP[Generate 6-digit OTP]
+
+  %% OTP signing & send
+  GenerateOTP --> SignOTP[Sign OTP with current HMAC key]
+  SignOTP --> SaveHashedOTP[Store hashed OTP + otp_expires_at = now + 10m]
+  SaveHashedOTP --> SendEmail[Send OTP email]
+  SendEmail --> ShowOtpForm[Show OTP input form]
+
+  %% OTP verification
+  ShowOtpForm --> SubmitOtp[User submits OTP]
+  SubmitOtp --> VerifyOtp{Verify OTP}
+  VerifyOtp -->|expired| RegisterFailureOtp[Register failure; return expired message]
+  VerifyOtp -->|mismatch| RegisterFailureOtp
+  VerifyOtp -->|match| LoginSuccess[Auth login]
+
+  RegisterFailureOtp -->|failed>=3| SetLock
+  RegisterFailureOtp -->|failed<3| ReturnOtpError[Return Kode OTP tidak valid atau sudah kadaluarsa]
+
+  LoginSuccess --> ClearOtp[Clear otp fields and reset failures]
+  ClearOtp --> RedirectDashboard[Redirect to /dashboard]
+
+  %% Notes
+  Notes([Notes: Badge patterns per role ADM-###/MGR-###/STF-###/USR-###; OTP HMAC uses OTP_KEYS; Lockout after 3 failures; OTP valid 10 min])
+  Start --> Notes
