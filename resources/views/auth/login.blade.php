@@ -372,7 +372,7 @@
                     </select>
                 </div>
 
-                <button type="submit">Kirim OTP & Sign In</button>
+                <button type="submit">LOGIN</button>
             </form>
 
             <div class="form-footer">
