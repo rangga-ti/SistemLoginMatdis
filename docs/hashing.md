@@ -112,8 +112,7 @@ Referensi penuh ada di `app/Http/Controllers/AuthController.php`.
 
 ## 8) Referensi file utama
 - `app/Http/Controllers/AuthController.php` — implementasi OTP/password/verification
-- `app/Services/MailtrapApiMailer.php` — pengiriman email via API
-- `resources/views/emails/otp.blade.php` dan `resources/views/emails/otp_api.blade.php` — template email
+- `resources/views/emails/otp.blade.php` — template email OTP
 - `routes/web.php` — route terkait login/otp
 
 ---

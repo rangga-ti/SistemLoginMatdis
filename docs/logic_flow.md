@@ -23,8 +23,7 @@ Sequence:
    - Jika gagal: panggil `registerFailure($user)` untuk menambah `failed_login_attempts` dan kemungkinan set `locked_until` bila >=3, lalu kembalikan error.
 6. Jika sukses: generate OTP 6 digit (`generateOtp()`), ambil secret HMAC saat ini (`getCurrentOtpKey()`), simpan `otp_code = hash_hmac('sha256', $otp, $secret)` dan `otp_expires_at = now()->addMinutes(10)`, reset `failed_login_attempts = 0`.
 7. Kirim OTP ke email:
-   - Jika `MAILTRAP_API_TOKEN` terisi, controller mencoba `App\Services\MailtrapApiMailer::send()` dengan template `resources/views/emails/otp_api.blade.php`.
-   - Jika tidak, atau API gagal, gunakan `Mail::to($user->email)->send(new OtpCodeMail($user, $otp))` yang merender `resources/views/emails/otp.blade.php`.
+   - Menggunakan `Mail::to($user->email)->send(new OtpCodeMail($user, $otp))` yang merender `resources/views/emails/otp.blade.php`. Konfigurasi email dapat disesuaikan di file `.env` (misalnya menggunakan SMTP Gmail atau layanan email transaksional lainnya).
 8. Simpan `auth_user_id` di session (`$request->session()->put('auth_user_id', $user->id)`) lalu redirect ke route `otp.show`.
 
 Efek DB: update `users` → `otp_code` (HMAC), `otp_expires_at`, `failed_login_attempts`.
@@ -102,29 +101,23 @@ Lokasi model: `app/Models/User.php` (lihat atribut `$fillable` dan `$casts`).
 ---
 
 ## 7) Pengiriman email
-- Dua jalur pengiriman:
-  - Mailtrap Send API: ketika `MAILTRAP_API_TOKEN` ada, controller gunakan `App\Services\MailtrapApiMailer::send()` (
-    file: `app/Services/MailtrapApiMailer.php`)
-  - Fallback: `Mail::to(...)->send(new OtpCodeMail(...))` (Mailable `app/Mail/OtpCodeMail.php`)
-- Template yang dipakai:
-  - API: `resources/views/emails/otp_api.blade.php`
-  - Mailable: `resources/views/emails/otp.blade.php`
+- Alur pengiriman email OTP:
+  - Pengiriman dilakukan melalui Laravel Mailer: `Mail::to(...)->send(new OtpCodeMail(...))` (Mailable `app/Mail/OtpCodeMail.php`).
+  - Template yang dipakai: `resources/views/emails/otp.blade.php` (dengan desain visual premium berbasis markdown).
 
 ---
 
 ## 8) Catatan alur error/kegagalan
 - Salah password/role/badge → `registerFailure()` dipanggil, user bisa dikunci setelah 3 kali.
 - OTP salah atau expired → `registerFailure()` dipanggil.
-- Jika Mailtrap API gagal, sistem akan fallback ke `Mail::to()`.
 
 ---
 
 ## 9) Rujukan cepat (file utama)
 - `routes/web.php` — definisi route (login/register/otp/logout/dashboard)
 - `app/Http/Controllers/AuthController.php` — implementasi logika auth/otp
-- `app/Services/MailtrapApiMailer.php` — pengirim via API
 - `resources/views/auth/*.blade.php` — UI forms
-- `resources/views/emails/*.blade.php` — template email
+- `resources/views/emails/otp.blade.php` — template email OTP
 - `app/Models/User.php` — field user
 
 ---
