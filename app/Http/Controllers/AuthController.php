@@ -88,22 +88,9 @@ class AuthController extends Controller
         $user->failed_login_attempts = 0;
         $user->save();
 
-        // Prefer Mailtrap API if API token present, otherwise use configured mailer (SMTP/log)
-        if (! empty(env('MAILTRAP_API_TOKEN'))) {
-            $html = view('emails.otp_api', ['name' => $user->name, 'otp' => $otp, 'expiresAt' => $user->otp_expires_at])->render();
-
-            try {
-                app(\App\Services\MailtrapApiMailer::class)->send($user->email, 'Kode OTP SistemLoginMatDis', $html);
-                Log::info('[Auth] OTP sent via Mailtrap API', ['user_id' => $user->id, 'otp_expires_at' => $user->otp_expires_at->toDateTimeString()]);
-            } catch (\Throwable $e) {
-                Log::error('[Auth] Mailtrap API send failed, falling back to Mail::to', ['error' => $e->getMessage()]);
-                Mail::to($user->email)->send(new OtpCodeMail($user, $otp));
-                Log::info('[Auth] OTP sent via fallback SMTP', ['user_id' => $user->id]);
-            }
-        } else {
-            Mail::to($user->email)->send(new OtpCodeMail($user, $otp));
-            Log::info('[Auth] OTP sent', ['user_id' => $user->id, 'otp_expires_at' => $user->otp_expires_at->toDateTimeString()]);
-        }
+        // Kirim OTP via Laravel Mailer bawaan (dikonfigurasi menggunakan SMTP Gmail)
+        Mail::to($user->email)->send(new OtpCodeMail($user, $otp));
+        Log::info('[Auth] OTP sent', ['user_id' => $user->id, 'otp_expires_at' => $user->otp_expires_at->toDateTimeString()]);
 
         $request->session()->put('auth_user_id', $user->id);
 
@@ -163,18 +150,8 @@ class AuthController extends Controller
         $user->otp_expires_at = \Illuminate\Support\Carbon::now()->addMinutes(10);
         $user->save();
 
-        // send email (reuse existing logic) - try API then fallback
-        if (! empty(env('MAILTRAP_API_TOKEN'))) {
-            $html = view('emails.otp_api', ['name' => $user->name, 'otp' => $otp, 'expiresAt' => $user->otp_expires_at])->render();
-
-            try {
-                app(\App\Services\MailtrapApiMailer::class)->send($user->email, 'Kode OTP SistemLoginMatDis', $html);
-            } catch (\Throwable $e) {
-                Mail::to($user->email)->send(new \App\Mail\OtpCodeMail($user, $otp));
-            }
-        } else {
-            Mail::to($user->email)->send(new \App\Mail\OtpCodeMail($user, $otp));
-        }
+        // Kirim OTP baru via Laravel Mailer bawaan
+        Mail::to($user->email)->send(new \App\Mail\OtpCodeMail($user, $otp));
 
         return back()->with('status', 'OTP baru telah dikirim ke email Anda.');
     }
