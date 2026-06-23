@@ -283,7 +283,7 @@
             <div class="floating-circle"></div>
             <span class="project-badge">Autentikasi Keamanan</span>
             <h2>Verifikasi Dua Langkah</h2>
-            <p>Sistem kami telah mengirimkan kode <i>One Time Password</i> (OTP) melalui Mailtrap. Silakan periksa kotak masuk email Anda untuk melanjutkan.</p>
+            <p>Sistem kami telah mengirimkan kode <i>One Time Password</i> (OTP) melalui Gmail. Silakan periksa kotak masuk email Anda untuk melanjutkan.</p>
         </div>
 
         <div class="form-panel">
