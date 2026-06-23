@@ -74,7 +74,7 @@
                         <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 text-xs font-bold">1</span>
                         Definisi Variabel Proposisi
                     </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                         <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200/50 dark:border-slate-800/50">
                             <code class="text-cyan-500 dark:text-cyan-400 font-bold text-base">A</code>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Email valid dan terdaftar di database.</p>
@@ -91,26 +91,30 @@
                             <code class="text-cyan-500 dark:text-cyan-400 font-bold text-base">D</code>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Kode OTP valid dan belum kedaluwarsa.</p>
                         </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200/50 dark:border-slate-800/50 md:col-span-2">
+                            <code class="text-cyan-500 dark:text-cyan-400 font-bold text-base">E</code>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Akun aktif (tidak sedang dikunci sementara).</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-6">
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm flex-1 flex flex-col justify-between">
                         <h3 class="font-bold text-sm uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                            <span>2</span> Ekspresi Logika Matematika
+                            <span>2</span> Ekspresi Logika
                         </h3>
                         <div class="my-4 text-center font-mono text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">
-                            S = A ∧ B ∧ C ∧ D
+                            S = A ∧ B ∧ C ∧ D ∧ E
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Operasi konjungsi AND (∧) mewajibkan seluruh input bernilai <span class="text-emerald-500 font-semibold">True</span>.</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Operasi konjungsi AND (∧) mewajibkan seluruh proposisi bernilai <span class="text-emerald-500 font-semibold">True</span>.</p>
                     </div>
 
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm flex-1 flex flex-col justify-between">
                         <h3 class="font-bold text-sm uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                            <span>4</span> Implementasi Teori Himpunan
+                            <span>4</span> Teori Himpunan
                         </h3>
                         <div class="my-4 text-center font-mono text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">
-                            H<sub>S</sub> = H<sub>A</sub> ∩ H<sub>B</sub> ∩ H<sub>C</sub> ∩ H<sub>D</sub>
+                            H<sub>S</sub> = H<sub>A</sub> ∩ H<sub>B</sub> ∩ H<sub>C</sub> ∩ H<sub>D</sub> ∩ H<sub>E</sub>
                         </div>
                         <p class="text-xs text-slate-500 dark:text-slate-400">Akses sukses berada pada irisan terkecil (<span class="font-mono">∩</span>) dari seluruh himpunan prasyarat.</p>
                     </div>
@@ -125,7 +129,7 @@
                     </h3>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
                         <thead>
                             <tr class="bg-slate-50 dark:bg-slate-950 font-mono text-xs text-slate-500 border-b border-slate-200 dark:border-slate-800">
                                 <th class="p-4 text-center w-16">Baris</th>
@@ -133,6 +137,7 @@
                                 <th class="p-4 text-center">B (Pass)</th>
                                 <th class="p-4 text-center">C (Role)</th>
                                 <th class="p-4 text-center">D (OTP)</th>
+                                <th class="p-4 text-center">E (Aktif)</th>
                                 <th class="p-4 text-center">Status</th>
                                 <th class="p-4">Penjelasan Alur di Laravel Controller</th>
                             </tr>
@@ -141,6 +146,7 @@
                             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-950/30">
                                 <td class="p-4 text-center text-slate-400">1</td>
                                 <td class="p-4 text-center text-red-500 font-bold">F</td>
+                                <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
@@ -153,8 +159,9 @@
                                 <td class="p-4 text-center text-red-500 font-bold">F</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
+                                <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center"><span class="px-2 py-0.5 bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 text-xs font-bold rounded">GAGAL</span></td>
-                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Email terdaftar, namun password salah. Role dilewati.</td>
+                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Email terdaftar, namun password salah. Role dkk dilewati.</td>
                             </tr>
                             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-950/30">
                                 <td class="p-4 text-center text-slate-400">3</td>
@@ -162,8 +169,9 @@
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-red-500 font-bold">F</td>
                                 <td class="p-4 text-center text-slate-400">—</td>
+                                <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center"><span class="px-2 py-0.5 bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 text-xs font-bold rounded">GAGAL</span></td>
-                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Email & password benar, namun role tidak cocok. OTP dibatalkan.</td>
+                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Email & password benar, namun role tidak cocok.</td>
                             </tr>
                             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-950/30">
                                 <td class="p-4 text-center text-slate-400">4</td>
@@ -171,17 +179,29 @@
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-red-500 font-bold">F</td>
+                                <td class="p-4 text-center text-slate-400">—</td>
                                 <td class="p-4 text-center"><span class="px-2 py-0.5 bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 text-xs font-bold rounded">GAGAL</span></td>
-                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Tahap 1 lolos, OTP dikirim, tetapi input OTP salah/kedaluwarsa.</td>
+                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">Kredensial dan role benar, namun OTP salah atau kedaluwarsa.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-950/30">
+                                <td class="p-4 text-center text-slate-400">5</td>
+                                <td class="p-4 text-center text-emerald-500 font-bold">T</td>
+                                <td class="p-4 text-center text-emerald-500 font-bold">T</td>
+                                <td class="p-4 text-center text-emerald-500 font-bold">T</td>
+                                <td class="p-4 text-center text-emerald-500 font-bold">T</td>
+                                <td class="p-4 text-center text-red-500 font-bold">F</td>
+                                <td class="p-4 text-center"><span class="px-2 py-0.5 bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400 text-xs font-bold rounded">GAGAL</span></td>
+                                <td class="p-4 font-sans text-slate-500 dark:text-slate-400">OTP divalidasi dengan benar, namun akun sedang dikunci sementara.</td>
                             </tr>
                             <tr class="bg-emerald-50/30 dark:bg-emerald-950/10 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20">
-                                <td class="p-4 text-center text-slate-400 font-bold">5</td>
+                                <td class="p-4 text-center text-slate-400 font-bold">6</td>
+                                <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center text-emerald-500 font-bold">T</td>
                                 <td class="p-4 text-center"><span class="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs font-bold rounded">SUKSES</span></td>
-                                <td class="p-4 font-sans text-slate-600 dark:text-slate-300 font-semibold">Seluruh syarat terpenuhi. Dashboard terbuka (Kondisi saat ini).</td>
+                                <td class="p-4 font-sans text-slate-600 dark:text-slate-300 font-semibold">Seluruh syarat terpenuhi. Dashboard terbuka.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -209,19 +229,23 @@
                    /               \
                 (No)               (Yes)
                  /                   \
-             <span class="text-red-500 font-bold">[GAGAL]</span>          Apakah Password Benar? (B)
-                                 /               \
-                              (No)               (Yes)
-                               /                   \
-                           <span class="text-red-500 font-bold">[GAGAL]</span>            Apakah Role Cocok? (C)
-                                                 /               \
-                                              (No)               (Yes)
-                                               /                   \
-                                           <span class="text-red-500 font-bold">[GAGAL]</span>             Apakah OTP Valid? (D)
-                                                                  /               \
-                                                               (No)               (Yes)
-                                                                /                   \
-                                                            <span class="text-red-500 font-bold">[GAGAL]</span>               <span class="text-emerald-400 font-bold animate-pulse">[SUKSES]</span>
+             <span class="text-red-500 font-bold">[GAGAL]</span>             Apakah Password Benar? (B)
+                                     /               \
+                                  (No)               (Yes)
+                                   /                   \
+                               <span class="text-red-500 font-bold">[GAGAL]</span>             Apakah Role Cocok? (C)
+                                                       /               \
+                                                    (No)               (Yes)
+                                                     /                   \
+                                                 <span class="text-red-500 font-bold">[GAGAL]</span>             Apakah OTP Valid? (D)
+                                                                         /               \
+                                                                      (No)               (Yes)
+                                                                       /                  \
+                                                                   <span class="text-red-500 font-bold">[GAGAL]</span>             Apakah Akun Aktif? (E)
+                                                                                           /               \
+                                                                                        (No)               (Yes)
+                                                                                         /                   \
+                                                                                     <span class="text-red-500 font-bold">[GAGAL]</span>               <span class="text-emerald-400 font-bold animate-pulse">[SUKSES]</span>
                     </pre>
                 </div>
             </div>
